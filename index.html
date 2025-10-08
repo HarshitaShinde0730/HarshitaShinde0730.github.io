@@ -1,30 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GTWY.AI — The AI & Automation Core of WalkOver</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #f8f9fc; display: flex; justify-content: center; align-items: center; height: 100vh; }
-    form { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 350px; }
-    h2 { text-align: center; color: #2d2e83; }
-    label { font-weight: bold; margin-top: 10px; display: block; }
-    input, select { width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; }
-    button { width: 100%; margin-top: 20px; padding: 10px; background: #2d2e83; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-    button:hover { background: #4547a3; }
-    .hidden { display: none; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    form {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 350px;
+    }
+    h2 {
+      text-align: center;
+      color: #2d2e83;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 10px;
+      background: #2d2e83;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #4547a3;
+    }
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
-
   <form id="gtwyForm">
     <h2>GTWY.AI — The AI & Automation Core of WalkOver</h2>
 
     <label>Name:</label>
-    <input type="text" id="name" name="name" required>
+    <input type="text" id="name" name="name" required />
 
-    <label>title</label>
-    <input type="text" id="fromtitle" name="title" required>
+    <label>Title:</label>
+    <input type="text" id="formTitle" name="title" required />
 
     <label>Option:</label>
     <select id="option" name="option" required>
@@ -35,29 +76,29 @@
 
     <div id="etaField" class="hidden">
       <label>ETA (Expected Time of Action):</label>
-      <input type="text" id="eta" name="eta" placeholder="e.g., 2 hours or 3 PM">
+      <input type="text" id="eta" name="eta" placeholder="e.g., 2 hours or 3 PM" />
     </div>
 
     <div id="statusField" class="hidden">
       <label>Status:</label>
       <select id="status" name="status">
         <option value="">Select Status</option>
-        <option value="Pending">To Do</option>
-        <option value="In Progress">To Do Final</option>
-        <option value="Completed">In progress</option>
-        <option value="On Hold">PR</option>
-        <option value="Cancelled">On Hold Due to Dependency</option>
-        <option value="Pending">On dev</option>
-        <option value="In Progress">Testing</option>
-        <option value="Completed">testing hold</option>
-        <option value="On Hold">testing done</option>
-        <option value="Cancelled">Prod</option>
-        <option value="Cancelled">Done 🎉</option>
-        <option value="Cancelled">Rejected</option>
+        <option value="To Do">To Do</option>
+        <option value="To Do Final">To Do Final</option>
+        <option value="In Progress">In Progress</option>
+        <option value="PR">PR</option>
+        <option value="On Hold">On Hold Due to Dependency</option>
+        <option value="On Dev">On Dev</option>
+        <option value="Testing">Testing</option>
+        <option value="Testing Hold">Testing Hold</option>
+        <option value="Testing Done">Testing Done</option>
+        <option value="Prod">Prod</option>
+        <option value="Done 🎉">Done 🎉</option>
+        <option value="Rejected">Rejected</option>
       </select>
     </div>
 
-    <button type="submit">Submit</button>
+    <button type="submit" id="submitBtn">Submit</button>
   </form>
 
   <script>
@@ -65,7 +106,6 @@
     const etaField = document.getElementById("etaField");
     const statusField = document.getElementById("statusField");
 
-    // Function to show/hide fields based on option
     function toggleFields(value) {
       if (value === "eta") {
         etaField.classList.remove("hidden");
@@ -81,14 +121,12 @@
 
     optionSelect.addEventListener("change", () => toggleFields(optionSelect.value));
 
-    // Function to get URL parameter
     function getParam(name) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(name) || "";
     }
 
-    // Pre-fill form fields from URL
-    window.onload = function() {
+    window.onload = function () {
       const name = getParam("name");
       const title = getParam("title");
       const option = getParam("option");
@@ -96,10 +134,10 @@
       const status = getParam("status");
 
       if (name) document.getElementById("name").value = name;
-      if (title) document.getElementById("fromtitle").value = title;
+      if (title) document.getElementById("formTitle").value = title;
       if (option) {
         document.getElementById("option").value = option;
-        toggleFields(option); // Show correct fields
+        toggleFields(option);
       }
       if (eta) document.getElementById("eta").value = eta;
       if (status) document.getElementById("status").value = status;
@@ -107,27 +145,30 @@
 
     document.getElementById("gtwyForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+      console.log("Submit button clicked ✅");
 
       const data = {
         name: document.getElementById("name").value,
-        slackId: document.getElementById("fromtitle").value,
+        title: document.getElementById("formTitle").value,
         option: document.getElementById("option").value,
         eta: document.getElementById("eta").value || null,
-        status: document.getElementById("status").value || null
+        status: document.getElementById("status").value || null,
       };
 
-      // ✅ Replace with your Webhook URL
+      console.log("Form Data:", data);
+
       const webhookUrl = "https://flow.sokt.io/func/scri82oOPxA9";
 
       try {
         const response = await fetch(webhookUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
+          body: JSON.stringify(data),
         });
 
         if (response.ok) {
           alert("Form submitted successfully!");
+          document.getElementById("gtwyForm").reset();
         } else {
           alert("Error submitting form");
         }
@@ -137,6 +178,5 @@
       }
     });
   </script>
-
 </body>
 </html>
