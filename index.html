@@ -21,13 +21,10 @@
     <h2>GTWY.AI — The AI & Automation Core of WalkOver</h2>
 
     <label>Name:</label>
-    <input type="text" id="name" name="name" placeholder="e.g., John Doe" required>
+    <input type="text" id="name" name="name" required>
 
-    <label>Email:</label>
-    <input type="text" id="email" name="email" placeholder="e.g., john.doe07@gmail.com" required>
-
-    <label>Title:</label>
-    <input type="text" id="title" name="title" required placeholder="e.g.,  store bridge or version id">
+    <label>Slack ID:</label>
+    <input type="text" id="slackId" name="slackId" required>
 
     <label>Option:</label>
     <select id="option" name="option" required>
@@ -54,18 +51,45 @@
     const etaField = document.getElementById("etaField");
     const statusField = document.getElementById("statusField");
 
-    optionSelect.addEventListener("change", () => {
-      if (optionSelect.value === "eta") {
+    // Function to show/hide fields based on option
+    function toggleFields(value) {
+      if (value === "eta") {
         etaField.classList.remove("hidden");
         statusField.classList.add("hidden");
-      } else if (optionSelect.value === "move") {
+      } else if (value === "move") {
         statusField.classList.remove("hidden");
         etaField.classList.add("hidden");
       } else {
         etaField.classList.add("hidden");
         statusField.classList.add("hidden");
       }
-    });
+    }
+
+    optionSelect.addEventListener("change", () => toggleFields(optionSelect.value));
+
+    // Function to get URL parameter
+    function getParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name) || "";
+    }
+
+    // Pre-fill form fields from URL
+    window.onload = function() {
+      const name = getParam("name");
+      const slackId = getParam("slackId");
+      const option = getParam("option");
+      const eta = getParam("eta");
+      const status = getParam("status");
+
+      if(name) document.getElementById("name").value = name;
+      if(slackId) document.getElementById("slackId").value = slackId;
+      if(option) {
+        document.getElementById("option").value = option;
+        toggleFields(option); // Show correct fields
+      }
+      if(eta) document.getElementById("eta").value = eta;
+      if(status) document.getElementById("status").value = status;
+    };
 
     document.getElementById("gtwyForm").addEventListener("submit", async (e) => {
       e.preventDefault();
