@@ -23,8 +23,8 @@
     <label>Name:</label>
     <input type="text" id="name" name="name" required>
 
-    <label>Slack ID:</label>
-    <input type="text" id="slackId" name="slackId" required>
+    <label>title</label>
+    <input type="text" id="title" name="title" required>
 
     <label>Option:</label>
     <select id="option" name="option" required>
@@ -40,7 +40,21 @@
 
     <div id="statusField" class="hidden">
       <label>Status:</label>
-      <input type="text" id="status" name="status" placeholder="e.g., Completed / In Progress">
+      <select id="status" name="status">
+        <option value="">Select Status</option>
+        <option value="Pending">To Do</option>
+        <option value="In Progress">To Do Final</option>
+        <option value="Completed">In progress</option>
+        <option value="On Hold">PR</option>
+        <option value="Cancelled">On Hold Due to Dependency</option>
+        <option value="Pending">On dev</option>
+        <option value="In Progress">Testing</option>
+        <option value="Completed">testing hold</option>
+        <option value="On Hold">testing done</option>
+        <option value="Cancelled">Prod</option>
+        <option value="Cancelled">Done 🎉</option>
+        <option value="Cancelled">Rejected</option>
+      </select>
     </div>
 
     <button type="submit">Submit</button>
@@ -81,14 +95,14 @@
       const eta = getParam("eta");
       const status = getParam("status");
 
-      if(name) document.getElementById("name").value = name;
-      if(slackId) document.getElementById("slackId").value = slackId;
-      if(option) {
+      if (name) document.getElementById("name").value = name;
+      if (slackId) document.getElementById("slackId").value = slackId;
+      if (option) {
         document.getElementById("option").value = option;
         toggleFields(option); // Show correct fields
       }
-      if(eta) document.getElementById("eta").value = eta;
-      if(status) document.getElementById("status").value = status;
+      if (eta) document.getElementById("eta").value = eta;
+      if (status) document.getElementById("status").value = status;
     };
 
     document.getElementById("gtwyForm").addEventListener("submit", async (e) => {
@@ -112,7 +126,7 @@
           body: JSON.stringify(data)
         });
 
-        if(response.ok){
+        if (response.ok) {
           alert("Form submitted successfully!");
         } else {
           alert("Error submitting form");
