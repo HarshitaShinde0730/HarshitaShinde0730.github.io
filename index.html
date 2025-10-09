@@ -137,6 +137,7 @@
       const option = getParam("option");
       const eta = getParam("eta");
       const status = getParam("status");
+      const reason = getParam("reason");
 
       if (name) document.getElementById("name").value = name;
       if (title) document.getElementById("formTitle").value = title;
@@ -146,7 +147,8 @@
       }
       if (eta) document.getElementById("eta").value = eta;
       if (status) document.getElementById("status").value = status;
-    };
+    }
+    if (reason) document.getElementById("reason").value = reason;
 
     document.getElementById("gtwyForm").addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -158,6 +160,7 @@
         option: document.getElementById("option").value,
         eta: document.getElementById("eta").value || null,
         status: document.getElementById("status").value || null,
+        reason: document.getElementById("reason").value || null,
       };
 
       console.log("Form Data:", data);
