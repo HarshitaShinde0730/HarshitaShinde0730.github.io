@@ -69,6 +69,9 @@
     <label>Title:</label>
     <input type="text" id="formTitle" name="title" required />
 
+    <label>Card ID:</label>
+    <input type="text" id="cardId" name="cardId" placeholder="Enter card ID" required />
+
     <label>Option:</label>
     <select id="option" name="option" required>
       <option value="">Select</option>
@@ -85,18 +88,21 @@
       <label>Status:</label>
       <select id="status" name="status">
         <option value="">Select Status</option>
-        <option value="To Do">To Do</option>
-        <option value="To Do Final">To Do Final</option>
-        <option value="In Progress">In Progress</option>
-        <option value="PR">PR</option>
-        <option value="On Hold">On Hold Due to Dependency</option>
-        <option value="On Dev">On Dev</option>
-        <option value="Testing">Testing</option>
-        <option value="Testing Hold">Testing Hold</option>
-        <option value="Testing Done">Testing Done</option>
-        <option value="Prod">Prod</option>
-        <option value="Done 🎉">Done 🎉</option>
-        <option value="Rejected">Rejected</option>
+        <option value="Bug">🐞 Bug</option>
+        <option value="Priority Bugs">👹 Priority Bugs</option>
+        <option value="Planning">📅 Planning (Future Tasks)</option>
+        <option value="To Do">✅ To Do (Confirmed Tasks)</option>
+        <option value="In Progress">⚙️ In Progress</option>
+        <option value="PR">📤 PR Raised</option>
+        <option value="On Hold">⏰ On Hold (Dependency)</option>
+        <option value="Merged Dev">🟢 Merged on Dev</option>
+        <option value="Testing Dev">🧪 Testing in Process (Dev)</option>
+        <option value="Testing Hold">🟠 Testing Hold</option>
+        <option value="QA Approved Dev">✅ QA Approved (Dev)</option>
+        <option value="Merged Prod">🏡 Merged to Prod</option>
+        <option value="Testing Prod">🧪 Testing in Process (Prod)</option>
+        <option value="QA Approved Prod">✅ QA Approved (Prod)</option>
+        <option value="Rejected">❌ Rejected</option>
       </select>
     </div>
 
@@ -126,14 +132,17 @@
 
     optionSelect.addEventListener("change", () => toggleFields(optionSelect.value));
 
+    // Helper to get params from URL
     function getParam(name) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(name) || "";
     }
 
+    // Pre-fill from URL params
     window.onload = function () {
       const name = getParam("name");
       const title = getParam("title");
+      const cardId = getParam("cardId");
       const option = getParam("option");
       const eta = getParam("eta");
       const status = getParam("status");
@@ -141,15 +150,17 @@
 
       if (name) document.getElementById("name").value = name;
       if (title) document.getElementById("formTitle").value = title;
+      if (cardId) document.getElementById("cardId").value = cardId;
       if (option) {
         document.getElementById("option").value = option;
         toggleFields(option);
       }
       if (eta) document.getElementById("eta").value = eta;
       if (status) document.getElementById("status").value = status;
-    }
-    if (reason) document.getElementById("reason").value = reason;
+      if (reason) document.getElementById("reason").value = reason;
+    };
 
+    // Form submit handler
     document.getElementById("gtwyForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       console.log("Submit button clicked ✅");
@@ -157,6 +168,7 @@
       const data = {
         name: document.getElementById("name").value,
         title: document.getElementById("formTitle").value,
+        cardId: document.getElementById("cardId").value,
         option: document.getElementById("option").value,
         eta: document.getElementById("eta").value || null,
         status: document.getElementById("status").value || null,
