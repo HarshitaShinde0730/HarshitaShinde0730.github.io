@@ -88,7 +88,9 @@
       <label>Status:</label>
       <select id="status" name="status">
         <option value="">Select Status</option>
+        <option value="Rejected Bugs">Rejected Bugs</option>
         <option value="Bug">🐞 Bug</option>
+        <option value="Improvements Not a bug">Improvements Not a bug</option>
         <option value="Priority Bugs">👹 Priority Bugs</option>
         <option value="Planning">📅 Planning (Future Tasks)</option>
         <option value="To Do">✅ To Do (Confirmed Tasks)</option>
@@ -177,7 +179,7 @@
 
       console.log("Form Data:", data);
 
-      const webhookUrl = "https://flow.sokt.io/func/scri82oOPxA9";
+      const webhookUrl = "https://flow.sokt.io/func/scriS9ysrEWF";
 
       try {
         const response = await fetch(webhookUrl, {
