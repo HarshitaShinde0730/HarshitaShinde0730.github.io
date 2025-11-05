@@ -119,6 +119,7 @@
     const etaField = document.getElementById("etaField");
     const statusField = document.getElementById("statusField");
 
+    // Toggle ETA / Status field visibility
     function toggleFields(value) {
       if (value === "eta") {
         etaField.classList.remove("hidden");
@@ -133,6 +134,27 @@
     }
 
     optionSelect.addEventListener("change", () => toggleFields(optionSelect.value));
+
+    // 🔹 Step 1: Define status → listId mapping
+    const listIdMapping = {
+      "Rejected Bugs": "68f0bd53c5ce82a6f4844ba7",
+      "Bug": "66b46950ab19d4eb53753b5f",
+      "Improvements Not a bug": "68f0bd9f11f1b2473a047b36",
+      "Priority Bugs": "68e9fb2b6fce12c69bbc97e5",
+      "Planning": "68dfd005ac3fe06aed92b87b",
+      "To Do": "68dfb9cd4bed8fc13b05f56e",
+      "In Progress": "66addc38a6ae6a439bd2827a",
+      "PR": "66addc38a6ae6a439bd2827b",
+      "On Hold": "68e3bbfd536c7a08aaad7e37",
+      "Merged Dev": "66b46d745e71f930a852ede0",
+      "Testing Dev": "66addc38a6ae6a439bd2827c",
+      "Testing Hold": "68dfc10f0979460f981ebef8",
+      "QA Approved Dev": "68dfc101d64c9b241759231d",
+      "Merged Prod": "66b46e52939aacf269a8fc39",
+      "Testing Prod": "68ea047f843d17338542a04b",
+      "QA Approved Prod": "66addc38a6ae6a439bd2827d",
+      "Rejected": "66b998edb3be256f5a990cfe"
+    };
 
     // Helper to get params from URL
     function getParam(name) {
@@ -167,17 +189,21 @@
       e.preventDefault();
       console.log("Submit button clicked ✅");
 
+      const selectedStatus = document.getElementById("status").value;
+      const mappedListId = listIdMapping[selectedStatus] || null;
+
       const data = {
         name: document.getElementById("name").value,
         title: document.getElementById("formTitle").value,
         cardId: document.getElementById("cardId").value,
         option: document.getElementById("option").value,
         eta: document.getElementById("eta").value || null,
-        status: document.getElementById("status").value || null,
+        status: selectedStatus || null,
+        listId: mappedListId, // ✅ Auto-filled based on status
         reason: document.getElementById("reason").value || null,
       };
 
-      console.log("Form Data:", data);
+      console.log("Final Data Sent to Webhook:", data);
 
       const webhookUrl = "https://flow.sokt.io/func/scriS9ysrEWF";
 
